@@ -8,7 +8,7 @@ int diameter = 100;
 
 void setup() {
   size (1080, 720);
-  rectMode(CENTER); 
+  rectMode(CENTER);
 }
 
 void draw() {
@@ -33,7 +33,7 @@ void draw() {
   if (y>=(height/4)+50) { //if y value reaches 50 pixels below canvas
     y=-50;  //sets y value to 50 pixels above canvas
   }
-  
+
   if (count<=100) {
     count = count+0.5;
   } else {
@@ -52,21 +52,18 @@ void draw() {
   }
 
   //Mouse pressed on stem creates "grass" pattern
-  
-  if (mouseX>width/2-15 && mouseX<width/2+15 && mouseY>height-height/2 && mouseY<height+height/2) {
-    for (int y=(3*height)/4; y<height; y+=22) {
-      for (int x = 0; x<=width; x+=22) {
-        for (int d=20; d>0; d-=4) {
+
+  if (mouseX < width/2 && mouseX>width/2-15 && mouseX<width/2+15) {
+    for (int y=height/2; y<height; y+=5) {
+      for (int x = 0; x<=width; x+=85) {
+        for (int d=40; d<width; d+=85) {
+          stroke(91, 163, 102);
           fill (91, 163, 102);
-          //rect (x, y, d, d);
-          //triangle(x, d, d, y, x, y);
-          triangle(x, d, x, y, d, y);
+          triangle(x, height, d, height-70, x+80, height);
         }
       }
     }
   }
-  
-  triangle(height-15, width-10, 80, 90, 50, 80);
 
   //STEM
   noStroke();
