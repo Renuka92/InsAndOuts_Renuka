@@ -120,7 +120,7 @@ void draw() {
   //RIGHT LEAF
   arc(550, 640, 80, 30, PI+HALF_PI, TWO_PI+HALF_PI);
 
-  fill(255, 255, 0);
+  //fill(255, 255, 0);
   stroke(r, g, b);
   strokeWeight(100);
 

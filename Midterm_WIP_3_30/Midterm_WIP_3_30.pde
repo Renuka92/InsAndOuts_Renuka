@@ -3,8 +3,7 @@ int scene = 0;
 int currentTime = 0;
 int timer1 = 5000;
 int timer2 = 10000;
-int timer3 = 15000;
-int limit = 20000;
+int limit = 15000;
 
 //Snow Globe
 int[] xCoordinate = new int[500];
@@ -62,63 +61,76 @@ void setup() {
 
 void draw() { 
   currentTime=millis(); // must be out of if statement 
-
+  
   if (currentTime>limit) {
     scene = 4;
-  } else if (currentTime>timer3) {
+    endScreen();
+  } else if (currentTime>timer2) { //beach
     scene = 3;
-    println("timer 3 is on");
-  } else if (currentTime>timer2) {
+    beach();
+  } else if (currentTime>timer1) { //flower
     scene = 2;
-    println("timer 2 is on");
-  } else if (currentTime>timer1) {
-    scene = 1;
-    println("timer 1 is on");
-  } 
+    flower();
+  } else if (scene == 1) { //globe
+    snowGlobe();
+  } else if (scene == 0) {
+    startScreen();
+  }
 
   if (scene==4) {
     if (key=='1') {
-      scene=1;
+      snowGlobe();
     } else if (key=='2') {
-      scene=2;
+      flower();
     } else if (key=='3') {
-      scene=3;
+      beach();
     } else {
       scene=4;
     }
   }
 
   println(currentTime);
-  if (scene == 0) {
-    background(0);
-    textSize(40);
-    text("Press return to begin a seasonal journey", width/2, height/2);
-  } else if (scene == 1) { //globe
-    globeShape(); 
-    //create snow circles using random x and y coordinates
-    for (int j=0; j<xCoordinate.length; j++) {
-      snow(xCoordinate[j], yCoordinate[j]);
-    }
-    globeText();
-  } else if (scene == 2) { //flower
-    sky();
-    sun();
-    stem_leafs();
-    petals_center();
-  } else if (scene == 3) {
-    background(255);
-    fill(0, 0, 255, 200);
-    waves();
-    fish();
-  } else if (scene == 4) {
-    background(0);
-    textSize(40);
-    text("Thank you for visiting", width/2, height/2-200);
-    text("Use keys to navigate through seasons:", width/2, height/2-50);
-    text("1 - Winter Wonderland", width/2, height/2+50);
-    text("2 - Spring into Action", width/2, height/2+125);
-    text("3 - Summer Solstice", width/2, height/2+200);
+
+}
+
+void startScreen() {
+  background(0);
+  textSize(40);
+  text("Press return to begin a seasonal journey", width/2, height/2);
+}
+
+void snowGlobe() {
+  globeShape();
+  //create snow circles using random x and y coordinates
+  for (int j=0; j<xCoordinate.length; j++) {
+    snow(xCoordinate[j], yCoordinate[j]);
   }
+  globeText();
+}
+
+void flower() {
+  sky();
+  sun();
+  stem_leafs();
+  petals_center();
+}
+
+void beach() {
+  background(255);
+  fill(0, 0, 255, 200);
+  waves();
+  fish();
+}
+
+void endScreen() {
+  background(0);
+  fill(255);
+  textSize(40);
+  text("Thank you for visiting!", width/2, height/2-200);
+  text("Use keys to navigate through seasons:", width/2, height/2-50);
+  text("1 - Winter Wonderland", width/2, height/2+50);
+  text("2 - Spring into Action", width/2, height/2+125);
+  text("3 - Summer Solstice", width/2, height/2+200);
 }
 
 void globeShape() {
@@ -129,7 +141,6 @@ void globeShape() {
   strokeWeight(20);
   stroke(300);
   ellipse(width/2, height/2-25, 550, 550);
-
   fill(0);
   quad(height/2, width/2-10, height, width/2-10, 800, 610, 300, 610);
 }
@@ -321,11 +332,11 @@ void fish() {
 }
 
 void keyPressed() {
-  if (key=='1' || key==ENTER) {
+  if (key==ENTER || (key=='1' && currentTime>limit)) {
     scene=1;
-  } else if (key=='2') {
+  } else if (key=='2' && currentTime>limit) {
     scene=2;
-  } else if (key=='3') {
+  } else if (key=='3' && currentTime>limit) {
     scene=3;
   }
 }
