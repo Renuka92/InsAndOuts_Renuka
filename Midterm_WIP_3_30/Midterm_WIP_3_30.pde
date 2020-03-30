@@ -26,9 +26,12 @@ PImage cloud;
 
 //Beach
 PImage [] fish = new PImage[3];
+PImage birds;
 float yoff = 0.0;
 float xValue;
 float yValue;
+float birdsX;
+float birdsY;
 
 void setup() {
   size(1080, 720);
@@ -48,15 +51,19 @@ void setup() {
     images[i] = loadImage("globe"+i+".png");
   }
 
-  cloud = loadImage("cloud.png"); //Flower
+  cloud = loadImage("cloud.png"); //Cloud
 
   //Beach
   xValue = 0;
   yValue = height/2+150;
+  birdsX = width;
+  birdsY = 0;
 
   for (int i=0; i<fish.length; i++) {
     fish[i] = loadImage("fish"+i+".png");
   }
+  
+  birds = loadImage("birds.png"); //flock of birds
 }
 
 void draw() { 
@@ -90,7 +97,6 @@ void draw() {
   }
 
   println(currentTime);
-
 }
 
 void startScreen() {
@@ -99,6 +105,8 @@ void startScreen() {
   text("Press return to begin a seasonal journey", width/2, height/2);
 }
 
+// SNOWGLOBE
+
 void snowGlobe() {
   globeShape();
   //create snow circles using random x and y coordinates
@@ -106,31 +114,6 @@ void snowGlobe() {
     snow(xCoordinate[j], yCoordinate[j]);
   }
   globeText();
-}
-
-void flower() {
-  sky();
-  sun();
-  stem_leafs();
-  petals_center();
-}
-
-void beach() {
-  background(255);
-  fill(0, 0, 255, 200);
-  waves();
-  fish();
-}
-
-void endScreen() {
-  background(0);
-  fill(255);
-  textSize(40);
-  text("Thank you for visiting!", width/2, height/2-200);
-  text("Use keys to navigate through seasons:", width/2, height/2-50);
-  text("1 - Winter Wonderland", width/2, height/2+50);
-  text("2 - Spring into Action", width/2, height/2+125);
-  text("3 - Summer Solstice", width/2, height/2+200);
 }
 
 void globeShape() {
@@ -176,6 +159,19 @@ void greeting(String message) {
   if (opacity>255 || opacity<0) {
     fade= -fade;
   }
+}
+
+//change background image of globe
+void mouseClicked () {
+  imageIndex = int(random(images.length));
+}
+
+// FLOWER
+void flower() {
+  sky();
+  sun();
+  stem_leafs();
+  petals_center();
 }
 
 void sky() {
@@ -263,7 +259,7 @@ void stem_leafs() {
   noStroke();
   fill(53, 94, 59);
   rect(width/2, height, 30, height);
-  arc(530, 600, 80, 30, HALF_PI, PI+HALF_PI);   //LEFT LEAF
+  arc(530, 600, 80, 30, HALF_PI, PI+HALF_PI);          //LEFT LEAF
   arc(550, 640, 80, 30, PI+HALF_PI, TWO_PI+HALF_PI);   //RIGHT LEAF
 }
 
@@ -284,10 +280,6 @@ void petals_center() {
   circle(540, 360, 100);
 }
 
-void mouseClicked () {
-  imageIndex = int(random(images.length));
-}
-
 // assign random values for r, g, b of flower
 void mousePressed() {
   r = random(255);
@@ -295,7 +287,25 @@ void mousePressed() {
   b = random(255);
 }
 
+// BEACH 
+void beach() {
+  strokeWeight(3);
+  r=255;
+  g=0;
+  b=0;
+  for (int i=0; i<height; i++)
+  {
+    stroke(r, i/2, b);
+    line(0, i, width, i);
+  }
+  waves();
+  fish();
+  birds();
+}
+
 void waves() {
+  noStroke();
+  fill(0, 88, 171);
   /* Adapted from Daniel Schiffman's Noise Wave example - 
    https://processing.org/examples/noisewave.html */
   beginShape(); 
@@ -329,6 +339,25 @@ void fish() {
   if (xValue>width+10) {
     xValue=-10;
   }
+}
+
+void birds() {
+  if (mouseY>100 && mouseY<height/2-50) {
+    birdsY=mouseY;
+  }
+  image(birds, birdsX, birdsY);
+  birdsX--;
+}
+
+void endScreen() {
+  background(0);
+  fill(255);
+  textSize(40);
+  text("Thank you for visiting!", width/2, height/2-200);
+  text("Use keys to navigate through seasons:", width/2, height/2-50);
+  text("1 - Winter Wonderland", width/2, height/2+50);
+  text("2 - Spring into Action", width/2, height/2+125);
+  text("3 - Summer Solstice", width/2, height/2+200);
 }
 
 void keyPressed() {
