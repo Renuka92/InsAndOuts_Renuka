@@ -1,9 +1,21 @@
 //SEASON'S GREETINGS by Renuka
 int scene = 0;
 int currentTime = 0;
+int startTime = 0;
 int timer1 = 5000;
 int timer2 = 10000;
 int limit = 15000;
+import processing.sound.*;
+import ddf.minim.*;
+
+Minim minim;
+
+AudioPlayer winter_sound; 
+AudioPlayer spring_sound1;
+AudioPlayer spring_sound2;
+AudioPlayer summer_sound;
+
+//String looping= "spring_sound1"; //track which file is looping
 
 //Snow Globe
 int[] xCoordinate = new int[500];
@@ -39,6 +51,13 @@ void setup() {
   imageMode(CENTER);
   textAlign(CENTER);
 
+  //Load soundfiles
+  minim = new Minim(this);
+  winter_sound = minim.loadFile("glitter_effect.mp3");  
+  spring_sound1 = minim.loadFile("birds_effect.mp3");
+  //spring_sound2 = new SoundFile(this, "rain_thunder_effect.mp3");
+  summer_sound = minim.loadFile("waves_effect.mp3");
+
   //Snow Globe
   //assign random values to x and y coordinates
   for (int i=0; i<xCoordinate.length; i++) {
@@ -62,26 +81,33 @@ void setup() {
   for (int i=0; i<fish.length; i++) {
     fish[i] = loadImage("fish"+i+".png");
   }
-  
+
   birds = loadImage("birds.png"); //flock of birds
 }
 
 void draw() { 
   currentTime=millis(); // must be out of if statement 
-  
-  if (currentTime>limit) {
+
+  if ((currentTime-startTime)>limit) {
     scene = 4;
     endScreen();
-  } else if (currentTime>timer2) { //beach
+  } else if ((currentTime-startTime)>timer2) { //beach
     scene = 3;
     beach();
-  } else if (currentTime>timer1) { //flower
+    spring_sound1.pause();
+    summer_sound.play();
+  } else if ((currentTime-startTime)>timer1) { //flower
     scene = 2;
     flower();
+    winter_sound.pause();
+    spring_sound1.play();
   } else if (scene == 1) { //globe
+    winter_sound.play();
     snowGlobe();
   } else if (scene == 0) {
     startScreen();
+    startTime = currentTime;
+    println("start time = " + startTime);
   }
 
   if (scene==4) {
@@ -93,11 +119,15 @@ void draw() {
       beach();
     } else {
       scene=4;
+      summer_sound.pause();
     }
   }
 
-  println(currentTime);
+  println("current time = " + currentTime);
 }
+
+////////////////////////////////// START SCREEN //////////////////////////////////
+
 
 void startScreen() {
   background(0);
@@ -105,7 +135,7 @@ void startScreen() {
   text("Press return to begin a seasonal journey", width/2, height/2);
 }
 
-// SNOWGLOBE
+////////////////////////////////// SNOWGLOBE //////////////////////////////////
 
 void snowGlobe() {
   globeShape();
@@ -166,7 +196,8 @@ void mouseClicked () {
   imageIndex = int(random(images.length));
 }
 
-// FLOWER
+////////////////////////////////// FLOWER //////////////////////////////////
+
 void flower() {
   sky();
   sun();
@@ -208,15 +239,15 @@ void sky() {
 void sun() {
   noStroke();
   fill(255, 255, 0);
-  if (mouseX < width/2) {
+  if (mouseX<width/2) {
     ellipse(0, 0, diameter, diameter);
-    if (keyPressed == true && diameter <= 350) {
+    if (diameter<=350 && currentTime>limit) {
       ellipse(0, 0, diameter, diameter++);
     }
   } 
 
   //MOVE SUN RAYS - only if mouse is in upper left quadrant
-  if (diameter > 350 && mouseX < width/4 && mouseY < height/4) {
+  if (diameter>350 && mouseX<width/4 && mouseY<height/4) {
     pushMatrix();
     rotate(-mouseX/100.0);
     beginShape(TRIANGLES);
@@ -242,16 +273,10 @@ void sun() {
   //SUN WORDS
   textSize(20);
   fill(0);
-  if (mouseX < width/2 && keyPressed == true) {
-    if (diameter > 350) {
+  
+  if (mouseX < width/2 && mousePressed && diameter>350) {
       text ("HELLO", 70, 60);
       text ("SUNSHINE", 75, 90);
-    } else if (diameter > 250) {
-      text ("Rising...", 60, 50);
-    } else {
-      text ("press", 35, 20);
-      text ("space", 35, 50);
-    }
   }
 }
 
@@ -287,7 +312,8 @@ void mousePressed() {
   b = random(255);
 }
 
-// BEACH 
+////////////////////////////////// BEACH //////////////////////////////////
+
 void beach() {
   strokeWeight(3);
   r=255;
@@ -307,7 +333,7 @@ void waves() {
   noStroke();
   fill(0, 88, 171);
   /* Adapted from Daniel Schiffman's Noise Wave example - 
-   https://processing.org/examples/noisewave.html */
+     https://processing.org/examples/noisewave.html */
   beginShape(); 
   float xoff = 0.0;
 
@@ -349,6 +375,8 @@ void birds() {
   birdsX--;
 }
 
+////////////////////////////////// END SCREEN //////////////////////////////////
+
 void endScreen() {
   background(0);
   fill(255);
@@ -363,9 +391,25 @@ void endScreen() {
 void keyPressed() {
   if (key==ENTER || (key=='1' && currentTime>limit)) {
     scene=1;
+    spring_sound1.pause();
+    summer_sound.pause();
+    winter_sound.rewind();
+    winter_sound.play();
   } else if (key=='2' && currentTime>limit) {
     scene=2;
+    winter_sound.pause();
+    summer_sound.pause();
+    spring_sound1.rewind();
+    spring_sound1.play();
   } else if (key=='3' && currentTime>limit) {
     scene=3;
+    winter_sound.pause();
+    spring_sound1.pause();
+    summer_sound.rewind();
+    summer_sound.play();
+  } else {
+    winter_sound.pause();
+    summer_sound.pause();
+    spring_sound1.pause();
   }
 }
