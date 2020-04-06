@@ -1,21 +1,25 @@
-//SEASON'S GREETINGS by Renuka
+/* SEASON'S GREETINGS by Renuka
+
+  Press return to begin the program. Within the first 20 seconds,
+  users will see a preview of all 3 seasons, which they can 
+  interact with by pressing keys, the mouse, and moving their 
+  cursor to different parts of the screen. At the end of the preview, 
+  navigate back through the seasons using keys 1-3. */
+  
 int scene = 0;
 int currentTime = 0;
 int startTime = 0;
-int timer1 = 5000;
-int timer2 = 10000;
-int limit = 15000;
+int timer1 = 6000;
+int timer2 = 12000;
+int limit = 19000;
 import processing.sound.*;
 import ddf.minim.*;
 
 Minim minim;
 
 AudioPlayer winter_sound; 
-AudioPlayer spring_sound1;
-AudioPlayer spring_sound2;
+AudioPlayer spring_sound;
 AudioPlayer summer_sound;
-
-//String looping= "spring_sound1"; //track which file is looping
 
 //Snow Globe
 int[] xCoordinate = new int[500];
@@ -50,12 +54,15 @@ void setup() {
   rectMode(CENTER);
   imageMode(CENTER);
   textAlign(CENTER);
+  
+  PFont times;
+  times = createFont("times-new-roman.ttf", 32);
+  textFont(times);
 
   //Load soundfiles
   minim = new Minim(this);
   winter_sound = minim.loadFile("glitter_effect.mp3");  
-  spring_sound1 = minim.loadFile("birds_effect.mp3");
-  //spring_sound2 = new SoundFile(this, "rain_thunder_effect.mp3");
+  spring_sound = minim.loadFile("birds_effect.mp3");
   summer_sound = minim.loadFile("waves_effect.mp3");
 
   //Snow Globe
@@ -86,7 +93,7 @@ void setup() {
 }
 
 void draw() { 
-  currentTime=millis(); // must be out of if statement 
+  currentTime=millis();  
 
   if ((currentTime-startTime)>limit) {
     scene = 4;
@@ -94,13 +101,13 @@ void draw() {
   } else if ((currentTime-startTime)>timer2) { //beach
     scene = 3;
     beach();
-    spring_sound1.pause();
+    spring_sound.pause();
     summer_sound.play();
   } else if ((currentTime-startTime)>timer1) { //flower
     scene = 2;
     flower();
     winter_sound.pause();
-    spring_sound1.play();
+    spring_sound.play();
   } else if (scene == 1) { //globe
     winter_sound.play();
     snowGlobe();
@@ -118,7 +125,6 @@ void draw() {
     } else if (key=='3') {
       beach();
     } else {
-      scene=4;
       summer_sound.pause();
     }
   }
@@ -131,8 +137,11 @@ void draw() {
 
 void startScreen() {
   background(0);
+  textSize(45);
+  text("Press return to begin a seasonal journey", width/2, height/2-120);
   textSize(40);
-  text("Press return to begin a seasonal journey", width/2, height/2);
+  text("For new effects, press keys, the mouse,", width/2, height/2+70);
+  text("or move cursor to different parts of the screen", width/2, height/2+120);
 }
 
 ////////////////////////////////// SNOWGLOBE //////////////////////////////////
@@ -162,8 +171,8 @@ void snow(int x, int y) {
   fill(255);
   noStroke();
   ellipse(x, constrain(y+move, 100, 530), 10, 10);
-  // restart snow if spacebar is pressed
-  if (keyPressed == true) {
+  // restart snow if key is pressed
+  if (keyPressed) {
     move=0;
   } else if (y + move<=500) {
     move+=0.005;
@@ -196,7 +205,7 @@ void mouseClicked () {
   imageIndex = int(random(images.length));
 }
 
-////////////////////////////////// FLOWER //////////////////////////////////
+////////////////////////////// FLOWER ///////////////////////////////
 
 void flower() {
   sky();
@@ -252,7 +261,7 @@ void sun() {
     rotate(-mouseX/100.0);
     beginShape(TRIANGLES);
     vertex(10, 170);
-    vertex(45, 220);
+    vertex(45, 220); 
     vertex(50, 160);
 
     vertex(70, 150);
@@ -391,7 +400,7 @@ void endScreen() {
 void keyPressed() {
   if (key==ENTER || (key=='1' && currentTime>limit)) {
     scene=1;
-    spring_sound1.pause();
+    spring_sound.pause();
     summer_sound.pause();
     winter_sound.rewind();
     winter_sound.play();
@@ -399,17 +408,17 @@ void keyPressed() {
     scene=2;
     winter_sound.pause();
     summer_sound.pause();
-    spring_sound1.rewind();
-    spring_sound1.play();
+    spring_sound.rewind();
+    spring_sound.play();
   } else if (key=='3' && currentTime>limit) {
     scene=3;
     winter_sound.pause();
-    spring_sound1.pause();
+    spring_sound.pause();
     summer_sound.rewind();
     summer_sound.play();
   } else {
     winter_sound.pause();
     summer_sound.pause();
-    spring_sound1.pause();
+    spring_sound.pause();
   }
 }
