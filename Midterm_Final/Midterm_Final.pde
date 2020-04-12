@@ -172,7 +172,7 @@ void snow(int x, int y) {
   noStroke();
   ellipse(x, constrain(y+move, 100, 530), 10, 10);
   // restart snow if key is pressed
-  if (keyPressed) {
+  if (keyPressed || mousePressed) {
     move=0;
   } else if (y + move<=500) {
     move+=0.005;
@@ -382,6 +382,10 @@ void birds() {
   }
   image(birds, birdsX, birdsY);
   birdsX--;
+  println(birdsX);
+  if (birdsX<-200) {
+    birdsX=width;
+  }
 }
 
 ////////////////////////////////// END SCREEN //////////////////////////////////
