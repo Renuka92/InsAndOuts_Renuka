@@ -49,17 +49,41 @@ void loop() {
       analogWrite(LED3, 255);
       analogWrite(LED4, 0);
     }
-//    else if (val == 5) {
-//      analogWrite(LED1, 0);
-//      analogWrite(LED2, 100);
-//      analogWrite(LED3, 150);
-//      analogWrite(LED4, 200);
-//      delay(100);
+    else if (val == 5) {
 //      analogWrite(LED1, 250);
-//      analogWrite(LED2, 200);
-//      analogWrite(LED3, 150);
-//      analogWrite(LED4, 100);
-//    }
+//      analogWrite(LED2, 150);
+//      analogWrite(LED3, 50);
+//      analogWrite(LED4, 5);
+//      delay(10);
+      analogWrite(LED1, 0);
+      analogWrite(LED2, 200);
+      analogWrite(LED3, 200);
+      analogWrite(LED4, 200);
+      delay(100);
+      analogWrite(LED1, 0);
+      analogWrite(LED2, 0);
+      analogWrite(LED3, 0);
+      analogWrite(LED4, 0);
+      delay(15);
+    }
+    else if (val == 6) {
+      analogWrite(LED1, 5);
+      analogWrite(LED2, 250);
+      analogWrite(LED3, 100);
+      analogWrite(LED4, 5);
+    }
+    else if (val == 7) {
+      analogWrite(LED1, 125);
+      analogWrite(LED2, 150);
+      analogWrite(LED3, 50);
+      analogWrite(LED4, 250);
+    }
+    else if (val == 8) {
+      analogWrite(LED1, 50);
+      analogWrite(LED2, 100);
+      analogWrite(LED3, 250);
+      analogWrite(LED4, 5);
+    }
 //  if (0 < val < 125) {
 //    analogWrite(LED1, val);
 //    analogWrite(LED2, 0);

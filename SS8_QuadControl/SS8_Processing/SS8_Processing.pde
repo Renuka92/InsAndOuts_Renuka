@@ -48,22 +48,38 @@ void draw() {
   
   if (tracker == -65536) {
     //val = int (map (mouseX, 0, width/2, 0, 255/2));
-    val=1;
+    if (mousePressed) {
+      val=5;
+    } else {
+      val=1;
+    }
     myPort.write(val);  
     println("red 1"); 
   } else if (tracker == -256) {
     //val = int (map (mouseX, width/2, width, 0, 255/2));
-    val=2;
+    if (mousePressed) {
+      val=6;
+    } else {
+      val=2;
+    }
     myPort.write(val);  
     println ("yellow 2"); 
   } else if (tracker == -16776961) {
     //val = int (map (mouseX, 0, width/2, 0, 255/2));
-    val=3;
+    if (mousePressed) {
+      val=7;
+    } else {
+      val=3;
+    }
     myPort.write(val);   
     println ("blue 3"); 
   } else if (tracker == -16711936) {
     //val = int (map (mouseY, height/2, height, 0, 255));
-    val=4;
+    if (mousePressed) {
+      val=8;
+    } else {
+      val=4;
+    }
     myPort.write(val);  
     println ("green 4"); 
   //} else if (mousePressed) {
