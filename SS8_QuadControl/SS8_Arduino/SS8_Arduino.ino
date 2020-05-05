@@ -1,100 +1,184 @@
 byte val; // stores data received from serial port
-int tracker;
 
-const int LED1 = 6; // variable for which pin
-const int LED2 = 9;
-const int LED3 = 10;
-const int LED4 = 11;
+const int LED1 = 7; // variable for which pin
+const int LED2 = 8;
+const int LED3 = 12;
+const int LED4 = 13;
 
 void setup() {
-  pinMode(LED1, OUTPUT); // set pin as output
-  pinMode(LED2, OUTPUT); // set pin as output
-  pinMode(LED3, OUTPUT);
-  pinMode(LED4, OUTPUT);
+  pinMode(LED1, OUTPUT); // RED
+  pinMode(LED2, OUTPUT); // YELLOW
+  pinMode(LED3, OUTPUT); // GREEN
+  pinMode(LED4, OUTPUT); // BLUE
   Serial.begin(9600); // Start serial communication at 9600 bps
 }
 
 void loop() {
   if (Serial.available()) { // If data is available to read
     val = Serial.read(); // read it and store it in val
-    tracker = Serial.read();
   }
-    if (val == 0) { // If 0 received
-      analogWrite(LED1, LOW); // turn LEDs off
-      analogWrite(LED2, LOW);
-      analogWrite(LED3, LOW);
-      analogWrite(LED4, LOW);
-    }
-    else if (val == 1) {
-      analogWrite(LED1, 255);
-      analogWrite(LED2, 0);
-      analogWrite(LED3, 0);
-      analogWrite(LED4, 0);
-    }
-    else if (val == 2) {
-      analogWrite(LED1, 0);
-      analogWrite(LED2, 255);
-      analogWrite(LED3, 0);
-      analogWrite(LED4, 0);
-    }
-    else if (val == 3) {
-      analogWrite(LED1, 0);
-      analogWrite(LED2, 0);
-      analogWrite(LED3, 0);
-      analogWrite(LED4, 255);
-    }
-    else if (val == 4) {
-      analogWrite(LED1, 0);
-      analogWrite(LED2, 0);
-      analogWrite(LED3, 255);
-      analogWrite(LED4, 0);
-    }
-    else if (val == 5) {
-//      analogWrite(LED1, 250);
-//      analogWrite(LED2, 150);
-//      analogWrite(LED3, 50);
-//      analogWrite(LED4, 5);
-//      delay(10);
-      analogWrite(LED1, 0);
-      analogWrite(LED2, 200);
-      analogWrite(LED3, 200);
-      analogWrite(LED4, 200);
-      delay(100);
-      analogWrite(LED1, 0);
-      analogWrite(LED2, 0);
-      analogWrite(LED3, 0);
-      analogWrite(LED4, 0);
-      delay(15);
-    }
-    else if (val == 6) {
-      analogWrite(LED1, 5);
-      analogWrite(LED2, 250);
-      analogWrite(LED3, 100);
-      analogWrite(LED4, 5);
-    }
-    else if (val == 7) {
-      analogWrite(LED1, 125);
-      analogWrite(LED2, 150);
-      analogWrite(LED3, 50);
-      analogWrite(LED4, 250);
-    }
-    else if (val == 8) {
-      analogWrite(LED1, 50);
-      analogWrite(LED2, 100);
-      analogWrite(LED3, 250);
-      analogWrite(LED4, 5);
-    }
-//  if (0 < val < 125) {
-//    analogWrite(LED1, val);
-//    analogWrite(LED2, 0);
-//    analogWrite(LED3, 0);
-//    analogWrite(LED4, 0);
-//  }
-//  else if (126 < val < 250) {
-//    analogWrite(LED1, 0);
-//    analogWrite(LED2, 0);
-//    analogWrite(LED3, 0);
-//    analogWrite(LED4, val);
-//  }
+  if (val == 0) { // If 0 received
+    digitalWrite(LED1, LOW); // turn LEDs off
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+  }
+  else if (val == 1) {
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+  }
+  else if (val == 2) {
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+  }
+  else if (val == 3) {
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, HIGH);
+  }
+  else if (val == 4) {
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, LOW);
+  }
+  else if (val == 5) {
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(100);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(100);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, LOW);
+    delay(100);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, HIGH);
+    delay(5);
+  }
+  else if (val == 6) {
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(300);
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, HIGH);
+    delay(300);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(300);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, HIGH);
+    delay(300);
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, LOW);
+    delay(300);
+  }
+  else if (val == 7) {
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, HIGH);
+    delay(500);
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(500);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(500);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, LOW);
+    delay(500);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, HIGH);
+    delay(500);
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, HIGH);
+    delay(500);
+  }
+  else if (val == 8) {
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, LOW);
+    delay(300);
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(300);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, HIGH);
+    delay(300);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(300);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(300);
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, HIGH);
+    delay(300);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(300);
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, HIGH);
+    delay(300);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+    digitalWrite(LED4, LOW);
+    delay(300);
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, HIGH);
+    digitalWrite(LED4, HIGH);
+    delay(300);
+  }
   delay(10); // Wait 10 milliseconds
 }
