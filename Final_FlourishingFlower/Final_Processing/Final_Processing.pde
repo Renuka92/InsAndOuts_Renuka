@@ -5,27 +5,31 @@
  Increase the amount of light the photoresistor receives to make 
  the dull flower bright again. */
 
+////////////////********** Arduino Variables **********////////////////
+
 import processing.serial.*;
 Serial myPort;
-
 int val;
 int photocell_val=0;
 int pot_val=0;
+
+///////////////********** Processing Variables **********///////////////
 
 int diameter = 145; //flower center
 float r = 225;
 float g = 93;       
 float b = 196;
-float xMove = 800;
-float yMove = 140;
+float xMove = 800;  //move droplets in x direction
+float yMove = 140;  //move droplets in y direction
 
-////**** Images ****////
-PImage watering_can;
+////////////////************** IMAGES **************////////////////
+
+PImage wateringCan;
 PImage droplets;
 PImage smallDrops;
-PImage sad_face;
-PImage straight_face;
-PImage happy_face;
+PImage sadFace;
+PImage straightFace;
+PImage happyFace;
 
 void setup() {
   size (1080, 720);
@@ -42,12 +46,16 @@ void setup() {
 void draw() {
   background(125, 212, 242);
 
-  watering_can = loadImage("can.png");        //watering can
-  droplets = loadImage("drops.png");          //water droplets
-  smallDrops = loadImage("drops_small.png");  //smaller drops
-  sad_face = loadImage("frown.png");          //frowning face
-  straight_face = loadImage("straight.png");  //straight face
-  happy_face = loadImage("smile.png");        //smiling face
+////////////////************ Load Images ************////////////////
+
+  wateringCan = loadImage("can.png");        //watering can
+  droplets = loadImage("drops.png");         //water droplets
+  smallDrops = loadImage("drops_small.png"); //smaller drops
+  sadFace = loadImage("frown.png");          //frowning face
+  straightFace = loadImage("straight.png");  //straight face
+  happyFace = loadImage("smile.png");        //smiling face
+
+////////////////********* Read Sensor Values *********////////////////
 
   if (myPort.available() > 0) { 
     val = myPort.read();
@@ -62,6 +70,8 @@ void draw() {
   println ("Photocell = " + photocell_val);
   println ("Pot val = " + pot_val);
 
+///////////********* Add water depending on pot val *********///////////
+
   if (pot_val>=145) {
     water(50);
   } else if (pot_val>100) {
@@ -73,12 +83,14 @@ void draw() {
   } else {
     water(200);
   }
-
+  
   flower();
 }  
 
+////////////////************** FUNCTIONS **************////////////////
+
 void flower() {
-  image(watering_can, width-150, height-600);
+  image(wateringCan, width-150, height-600);
   stem_leafs();
   petals_center();
 }
@@ -108,14 +120,18 @@ void petals_center() {
   noStroke();
   circle(width/2, height/2, diameter);
 
+///////////****** Change face of flower with water & light ******///////////
+
   if (pot_val>=145 && photocell_val>=245) {
-    image(happy_face, width/2, height/2);
+    image(happyFace, width/2, height/2);
   } else if (pot_val>100) {
-    image(straight_face, width/2, height/2);
+    image(straightFace, width/2, height/2);
   } else {
-    image(sad_face, width/2, height/2);
+    image(sadFace, width/2, height/2);
   }
 }
+
+/////////////****** Water Droplets from Watering Can ******/////////////
 
 void water(int space) {
   for (int x=0; x<=width+40; x+=space) {
